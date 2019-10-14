@@ -20,3 +20,8 @@ RPi_utils/RFSniffer
 RPi_utils/codesend
 RPi_utils/send
 
+# Compiled executables
+CHIP_utils/RFSniffer
+CHIP_utils/codesend
+CHIP_utils/send
+

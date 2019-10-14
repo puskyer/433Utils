@@ -1,0 +1,46 @@
+--- RCSwitch.cpp	2019-10-14 14:34:55.000000000 +0000
++++ ../../433Utilsdev/rc-switch/RCSwitch.cpp	2019-10-14 14:33:14.000000000 +0000
+@@ -40,6 +40,13 @@
+     #define memcpy_P(dest, src, num) memcpy((dest), (src), (num))
+ #endif
+ 
++#ifdef GETCHIP
++    // PROGMEM and _P functions are for AVR based microprocessors,
++    // so we must normalize these for the ARM processor:
++    #define PROGMEM
++    #define memcpy_P(dest, src, num) memcpy((dest), (src), (num))
++#endif
++
+ #ifdef ESP8266
+     // interrupt handler and related code must be in RAM on ESP8266,
+     // according to issue #46.
+@@ -72,6 +79,7 @@
+ static const RCSwitch::Protocol proto[] = {
+ #else
+ static const RCSwitch::Protocol PROGMEM proto[] = {
++//static const RCSwitch::Protocol proto[] = {
+ #endif
+     { 350, {  1, 31 }, {  1,  3 }, {  3,  1 } },    // protocol 1
+     { 650, {  1, 10 }, {  1,  2 }, {  2,  1 } },    // protocol 2
+@@ -538,6 +546,8 @@
+     RCSwitch::nReceivedBitlength = 0;
+ #if defined(RaspberryPi) // Raspberry Pi
+     wiringPiISR(this->nReceiverInterrupt, INT_EDGE_BOTH, &handleInterrupt);
++#elif defined(GETCHIP) // CHIP
++    wiringPiISR(this->nReceiverInterrupt, INT_EDGE_BOTH, &handleInterrupt);
+ #else // Arduino
+     attachInterrupt(this->nReceiverInterrupt, handleInterrupt, CHANGE);
+ #endif
+@@ -548,7 +558,11 @@
+  * Disable receiving data
+  */
+ void RCSwitch::disableReceive() {
+-#if not defined(RaspberryPi) // Arduino
++#if defined(RaspberryPi)
++
++#elif  defined(GETCHIP)
++
++#else // Arduino
+   detachInterrupt(this->nReceiverInterrupt);
+ #endif // For Raspberry Pi (wiringPi) you can't unregister the ISR
+   this->nReceiverInterrupt = -1;

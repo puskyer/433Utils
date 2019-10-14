@@ -5,14 +5,14 @@ CXXFLAGS=-DGETCHIP
 
 all: send codesend RFSniffer
 
-send: ../rc-switch/CHIP_IO/source/common.o ../rc-switch/CHIP_IO/source/event_gpio.o ../rc-switch/RCSwitch.o send.o
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lpthread
+send:     ../rc-switch/CHIP_IO/source/common.o ../rc-switch/CHIP_IO/source/event_gpio.o ../rc-switch/RCSwitch.o send.o
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lpthread -lwiringPi
 	
 codesend: ../rc-switch/CHIP_IO/source/common.o ../rc-switch/CHIP_IO/source/event_gpio.o ../rc-switch/RCSwitch.o codesend.o
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lpthread
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lpthread -lwiringPi
 	
-RFSniffer: ../rc-switch/CHIP_IO/source/common.o ../rc-switch/CHIP_IO/source/event_gpio.o ../rc-switch/RCSwitch.o RFSniffer.o
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lpthread
+RFSniffer: RFSniffer.o ../rc-switch/CHIP_IO/source/common.o ../rc-switch/CHIP_IO/source/event_gpio.o ../rc-switch/RCSwitch.o
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $+ -o $@ -lpthread -lwiringPi -lm -fopenmp -L../rc-switch/CHIP_IO/source/
 	
 
 clean:

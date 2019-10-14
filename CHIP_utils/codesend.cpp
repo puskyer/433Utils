@@ -5,7 +5,7 @@ protocol    - According to rc-switch definitions
 pulselength - pulselength in microseconds
 
  'codesend' hacked from 'send' by @justy
- 
+
  - The provided rc_switch 'send' command uses the form systemCode, unitCode, command
    which is not suitable for our purposes.  Instead, we call 
    send(code, length); // where length is always 24 and code is simply the code
@@ -15,9 +15,15 @@ pulselength - pulselength in microseconds
 or your remote control)
 */
 #include "../rc-switch/RCSwitch.h"
+
+extern "C" {
+        #include <unistd.h>
+        #include "../rc-switch/CHIP_IO/source/common.h"
+        #include "../rc-switch/CHIP_IO/source/event_gpio.h"
+}
+
 #include <stdlib.h>
 #include <stdio.h>
-     
 
 int main(int argc, char *argv[]) {
     /*

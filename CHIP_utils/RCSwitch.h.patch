@@ -1,0 +1,19 @@
+--- RCSwitch.h	2019-10-14 14:34:55.000000000 +0000
++++ ../../433Utilsdev/rc-switch/RCSwitch.h	2019-10-14 14:32:44.000000000 +0000
+@@ -41,6 +41,16 @@
+     #include <string.h> /* memcpy */
+     #include <stdlib.h> /* abs */
+     #include <wiringPi.h>
++
++#elif defined(GETCHIP) //  CHIP
++
++    // Include libraries for CHIP:
++    #include <string.h> /* memcpy */
++    #include <stdlib.h> /* abs */
++    #include "/usr/local/include/wiringPiI2C.h"
++    #include "/usr/local/include/wiringPiSPI.h"
++    #include "/usr/local/include/wiringPi.h"
++
+ #else
+     #include "WProgram.h"
+ #endif

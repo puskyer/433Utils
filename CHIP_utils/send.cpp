@@ -4,11 +4,19 @@
  */
 
 #include "../rc-switch/RCSwitch.h"
+
+extern "C" {
+        #include <unistd.h>
+        #include "../rc-switch/CHIP_IO/source/common.h"
+        #include "../rc-switch/CHIP_IO/source/event_gpio.h"
+}
+
 #include <stdlib.h>
 #include <stdio.h>
 
+
 int main(int argc, char *argv[]) {
-    
+
     /*
      output PIN is hardcoded for testing purposes
      XIO-P* do not have a good enough time resolution to work properly
@@ -25,12 +33,12 @@ int main(int argc, char *argv[]) {
     char* systemCode = argv[1];
     int unitCode = atoi(argv[2]);
     int command  = atoi(argv[3]);
-    
+
     printf("sending systemCode[%s] unitCode[%i] command[%i]\n", systemCode, unitCode, command);
     RCSwitch mySwitch = RCSwitch();
     if (argv[4] != NULL) mySwitch.setPulseLength(atoi(argv[4]));
     mySwitch.enableTransmit(PIN);
-    
+
     switch(command) {
         case 1:
             mySwitch.switchOn(systemCode, unitCode);
