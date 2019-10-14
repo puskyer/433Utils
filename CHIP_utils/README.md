@@ -17,3 +17,6 @@ The 'send' and 'sendcode' code is as yet untested.  It _should_ work, but it is 
 git clone https://github.com/WiringPi/WiringPi.git  and build on CHIP
 git clone git@github.com:puskyer/CHIP_IO.git and symlink to 433Utils/rc-switch/CHIP_IO
 exicute only first time 433utils/CHIP_utils/setup_patch.sh
+
+important:
+This just makes it compile, have not tested that it works on pocket-CHIP yet
